@@ -1,0 +1,94 @@
+# ==============================================================================
+# Global & OS Files
+# ==============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+.history/
+ui/
+skills/
+.agents/
+
+
+# ==============================================================================
+# IDEs & Editors
+# ==============================================================================
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.atom/
+*.sublime-project
+*.sublime-workspace
+
+# ==============================================================================
+# Environment Variables (Keep examples)
+# ==============================================================================
+.env
+.env.*
+!.env.example
+*.env.local
+
+# ==============================================================================
+# Backend (Node.js / Express / TypeScript / PostgreSQL)
+# ==============================================================================
+backend/node_modules/
+backend/dist/
+backend/build/
+backend/coverage/
+backend/*.log
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/.pnpm-debug.log*
+backend/.env
+!backend/.env.example
+
+# ==============================================================================
+# Frontend (Flutter / Dart / Android / iOS)
+# ==============================================================================
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.pub-cache/
+frontend/.pub/
+frontend/build/
+frontend/coverage/
+frontend/.widget_preview/
+
+# Flutter Artifacts
+frontend/*.apk
+frontend/*.aab
+frontend/app.*.symbols
+frontend/app.*.map.json
+frontend/android/app/debug/
+frontend/android/app/profile/
+frontend/android/app/release/
+frontend/android/.gradle/
+frontend/android/local.properties
+
+# iOS / macOS build files
+frontend/ios/Pods/
+frontend/ios/.symlinks/
+frontend/ios/Flutter/Flutter.framework
+frontend/ios/Flutter/Flutter.podspec
+frontend/ios/Flutter/Generated.xcconfig
+frontend/ios/Flutter/app.framework
+frontend/ios/**/.last_build_id
+
+frontend/.env
+!frontend/.env.example
