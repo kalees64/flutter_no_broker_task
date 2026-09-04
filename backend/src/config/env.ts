@@ -11,6 +11,14 @@ const envSchema = z.object({
   DB_USER: z.string().default('postgres'),
   DB_PASSWORD: z.string(),
   DB_NAME: z.string().default('nobroker_db'),
+  DB_SSL: z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (val === 'true') return true;
+      if (val === 'false') return false;
+      return undefined;
+    }),
   JWT_ACCESS_SECRET: z.string().min(16),
   JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
   JWT_REFRESH_SECRET: z.string().min(16),
@@ -26,3 +34,18 @@ if (!parsedEnv.success) {
 }
 
 export const env = parsedEnv.data;
+
+export const getDatabaseSslConfig = () => {
+  if (env.DB_SSL === true) {
+    return { rejectUnauthorized: false };
+  }
+  if (env.DB_SSL === false) {
+    return false;
+  }
+  // Auto-detect for remote databases (e.g. AWS RDS, Neon, Supabase)
+  if (env.DB_HOST && env.DB_HOST !== 'localhost' && env.DB_HOST !== '127.0.0.1') {
+    return { rejectUnauthorized: false };
+  }
+  return false;
+};
+

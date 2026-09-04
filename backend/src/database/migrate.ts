@@ -2,19 +2,22 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import pg from 'pg';
-import { env } from '../config/env.js';
+import { env, getDatabaseSslConfig } from '../config/env.js';
 
 const { Client } = pg;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 async function ensureDatabaseExists() {
+  const sslConfig = getDatabaseSslConfig();
   const rootClient = new Client({
     host: env.DB_HOST,
     port: env.DB_PORT,
     user: env.DB_USER,
     password: env.DB_PASSWORD,
     database: 'postgres',
+    ssl: sslConfig,
+    connectionTimeoutMillis: 30000,
   });
 
   try {
@@ -32,23 +35,28 @@ async function ensureDatabaseExists() {
     } else {
       console.log(`🔍 Database "${env.DB_NAME}" verified.`);
     }
-  } catch (error) {
-    console.error('Error verifying or creating database:', error);
-    throw error;
+  } catch (error: any) {
+    console.warn(`⚠️ Notice during root database verification: ${error.message}`);
+    console.log(`ℹ️ Attempting direct connection to target database "${env.DB_NAME}"...`);
   } finally {
-    await rootClient.end();
+    try {
+      await rootClient.end();
+    } catch {}
   }
 }
 
 async function runMigrations() {
   await ensureDatabaseExists();
 
+  const sslConfig = getDatabaseSslConfig();
   const client = new Client({
     host: env.DB_HOST,
     port: env.DB_PORT,
     user: env.DB_USER,
     password: env.DB_PASSWORD,
     database: env.DB_NAME,
+    ssl: sslConfig,
+    connectionTimeoutMillis: 30000,
   });
 
   try {

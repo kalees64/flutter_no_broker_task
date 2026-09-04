@@ -1,5 +1,5 @@
 import pg from 'pg';
-import { env } from '../config/env.js';
+import { env, getDatabaseSslConfig } from '../config/env.js';
 
 const { Pool } = pg;
 
@@ -9,9 +9,10 @@ export const pool = new Pool({
   user: env.DB_USER,
   password: env.DB_PASSWORD,
   database: env.DB_NAME,
+  ssl: getDatabaseSslConfig(),
   max: 20,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 5000,
+  connectionTimeoutMillis: 30000,
 });
 
 pool.on('error', (err) => {
